@@ -21,7 +21,7 @@ uint8_t sound_timer;
 
 bool keyboard[16];
 
-void initialize();
-void cycle();
+void initializeCPU();
+void cycleCPU();
 
 #endif
