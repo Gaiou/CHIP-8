@@ -27,9 +27,9 @@ void initializeCPU() {
 	program_counter = 0x200;
 	index_register = 0;
 	stack_pointer = 0;
-
-	delay_timer = 60;
-	sound_timer = 60;
+	
+	delay_timer = 0;
+	sound_timer = 0;
 
 	for (int i = 0; i < 4096; i++)
 		memory[i] = 0;
