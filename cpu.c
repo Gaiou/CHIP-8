@@ -21,10 +21,32 @@ const uint8_t fontset[80] = {
 	0xF0, 0x80, 0xF0, 0x80, 0x80	// F
 };
 
-void initialize() {
-	
+void initializeCPU() {
+	current_opcode = 0;
+
+	program_counter = 0x200;
+	index_register = 0;
+	stack_pointer = 0;
+
+	delay_timer = 60;
+	sound_timer = 60;
+
+	for (int i = 0; i < 4096; i++)
+		memory[i] = 0;
+
+	for (int i = 0; i < 80; i++)
+		memory[i + 0x050] = fontset[i]; 
+
+	for (int i = 0; i < (64*32); i++)
+		display[i] = 0;
+
+	for (int i = 0; i < 16; i++) {
+		v_register[i] = 0;
+		stack[i] = 0;
+		keyboard[i] = false;
+	}
 }
 
-void cycle() {
+void cycleCPU() {
 
 }
