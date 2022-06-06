@@ -6,8 +6,8 @@ FILE* openROM() {
 
     printf("Filepath to ROM: ");
     scanf("%s", path);
-    printf("%s \n", path);
 
+    printf("Opening ROM...\n");
     FILE* file = fopen(path, "rb");
 
     return file;
@@ -15,7 +15,7 @@ FILE* openROM() {
 
 void closeROM(FILE* file) {
     fclose(file);
-    printf("Closed ROM");
+    printf("Closing ROM...\n");
 
     return;
 }
