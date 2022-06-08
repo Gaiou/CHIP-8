@@ -11,9 +11,9 @@ int main(int argc, char *argv[]) {
     }
 
     initializeCPU();
-    
+
     long size = getSize(file);
-    uint8_t* buffer = (uint8_t*) malloc(size * sizeof(uint8_t)); // allocate memory for 132 elements/uint8 (132 bytes)
+    uint8_t* buffer = (uint8_t*) malloc(size * sizeof(uint8_t));
     fread(buffer, sizeof(buffer), size, file);   
 
     for (int i = 0; i < size; i++) {
