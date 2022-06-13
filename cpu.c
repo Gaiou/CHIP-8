@@ -1,4 +1,5 @@
 #include "cpu.h"
+#include <stdio.h>
 
 const uint8_t fontset[80] = {
     0xF0, 0x90, 0x90, 0x90, 0xF0,   // 0
@@ -46,5 +47,61 @@ void initializeCPU() {
 }
 
 void cycleCPU() {
-
+    current_opcode = memory[program_counter] << 8 | memory[program_counter + 1];
+    program_counter += 2;
+    
+    switch (current_opcode & 0xF000)
+    {
+    case 0x0000:
+        printf("0x00E0 ");
+        break;
+    case 0x1000:
+        printf("0x1000 ");
+        break;
+    case 0x2000:
+        printf("0x2000 ");
+        break;
+    case 0x3000:
+        printf("0x3000 ");
+        break;
+    case 0x4000:
+        printf("0x4000 ");
+        break;
+    case 0x5000:
+        printf("0x5000 ");
+        break;
+    case 0x6000:
+        printf("0x6000 ");
+        break;
+    case 0x7000:
+        printf("0x7000 ");
+        break;
+    case 0x8000:
+        printf("0xA000 ");
+        break;
+    case 0x9000:
+        printf("0xA000 ");
+        break;
+    case 0xA000:
+        printf("0xA000 ");
+        break;
+    case 0xB000:
+        printf("0xB000 ");
+        break;
+    case 0xC000:
+        printf("0xC000 ");
+        break;
+    case 0xD000:
+        printf("0xD000 ");
+        break;
+    case 0xE000:
+        printf("0xE000 ");
+        break;
+    case 0xF000:
+        printf("0xA000 ");
+        break;
+    default:
+        printf("Error Opcode: %X ", current_opcode);
+        break;
+    }
 }
