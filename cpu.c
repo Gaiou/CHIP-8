@@ -53,7 +53,7 @@ void cycleCPU() {
     switch (current_opcode & 0xF000)
     {
     case 0x0000:
-        printf("0x00E0 ");
+        printf("0x0000 ");
         break;
     case 0x1000:
         printf("0x1000 ");
@@ -77,10 +77,10 @@ void cycleCPU() {
         printf("0x7000 ");
         break;
     case 0x8000:
-        printf("0xA000 ");
+        printf("0x8000 ");
         break;
     case 0x9000:
-        printf("0xA000 ");
+        printf("0x9000 ");
         break;
     case 0xA000:
         printf("0xA000 ");
@@ -98,7 +98,7 @@ void cycleCPU() {
         printf("0xE000 ");
         break;
     case 0xF000:
-        printf("0xA000 ");
+        printf("0xF000 ");
         break;
     default:
         printf("Error Opcode: %X ", current_opcode);
