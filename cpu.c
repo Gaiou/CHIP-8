@@ -50,58 +50,111 @@ void cycleCPU() {
     current_opcode = memory[program_counter] << 8 | memory[program_counter + 1];
     program_counter += 2;
     
-    switch (current_opcode & 0xF000)
-    {
-    case 0x0000:
-        printf("0x0000 ");
-        break;
-    case 0x1000:
-        printf("0x1000 ");
-        break;
-    case 0x2000:
-        printf("0x2000 ");
-        break;
-    case 0x3000:
-        printf("0x3000 ");
-        break;
-    case 0x4000:
-        printf("0x4000 ");
-        break;
-    case 0x5000:
-        printf("0x5000 ");
-        break;
-    case 0x6000:
-        printf("0x6000 ");
-        break;
-    case 0x7000:
-        printf("0x7000 ");
-        break;
-    case 0x8000:
-        printf("0x8000 ");
-        break;
-    case 0x9000:
-        printf("0x9000 ");
-        break;
-    case 0xA000:
-        printf("0xA000 ");
-        break;
-    case 0xB000:
-        printf("0xB000 ");
-        break;
-    case 0xC000:
-        printf("0xC000 ");
-        break;
-    case 0xD000:
-        printf("0xD000 ");
-        break;
-    case 0xE000:
-        printf("0xE000 ");
-        break;
-    case 0xF000:
-        printf("0xF000 ");
-        break;
-    default:
-        printf("Error Opcode: %X ", current_opcode);
-        break;
-    }
+    switch (current_opcode & 0xF000) {
+        case 0x0000:
+            printf("0x0000 ");
+            switch (current_opcode & 0x000F) {
+                case 0x0000:
+                    break;
+                case 0x000E:
+                    break;
+            }
+            break;
+        case 0x1000:
+            printf("0x1000 ");
+            break;
+        case 0x2000:
+            printf("0x2000 ");
+            break;
+        case 0x3000:
+            printf("0x3000 ");
+            break;
+        case 0x4000:
+            printf("0x4000 ");
+            break;
+        case 0x5000:
+            printf("0x5000 ");
+            break;
+        case 0x6000:
+            printf("0x6000 ");
+            break;
+        case 0x7000:
+            printf("0x7000 ");
+            break;
+        case 0x8000:
+            printf("0x8000 ");
+            switch (current_opcode & 0x000F) {
+                case 0x0000:
+                    break;
+                case 0x0001:
+                    break;
+                case 0x0002:
+                    break;
+                case 0x0003:
+                    break;
+                case 0x0004:
+                    break;
+                case 0x0005:
+                    break;
+                case 0x0006:
+                    break;
+                case 0x0007:
+                    break;
+                case 0x000E:
+                    break;
+            }
+            break;
+        case 0x9000:
+            printf("0x9000 ");
+            break;
+        case 0xA000:
+            printf("0xA000 ");
+            break;
+        case 0xB000:
+            printf("0xB000 ");
+            break;
+        case 0xC000:
+            printf("0xC000 ");
+            break;
+        case 0xD000:
+            printf("0xD000 ");
+            break;
+        case 0xE000:
+            printf("0xE000 ");
+            switch (current_opcode & 0x00FF) {
+                case 0x009E:
+                    /* code */
+                    break;
+                case 0x00A1:
+                    /* code */
+                    break;
+            }
+            break;
+        case 0xF000:
+            printf("0xF000 ");
+            switch (current_opcode & 0x00FF) {
+                case 0x0007:
+                    break;
+                case 0x000A:
+                    break;
+                case 0x0015:
+                    break;
+                case 0x0018:
+                    break;
+                case 0x001E:
+                    break;
+                case 0x0029:
+                    break;
+                case 0x0033:
+                    break;
+                case 0x0055:
+                    break;
+                case 0x0065:
+                    break;
+            }
+            break;
+        default:
+            printf("Error Opcode: [0x%X] ", current_opcode);
+            break;
+        }
 }
