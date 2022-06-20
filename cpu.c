@@ -56,10 +56,13 @@ void cycleCPU() {
                 case 0x0000:
                     break;
                 case 0x000E:
+                    program_counter = stack[stack_pointer];
+                    stack_pointer--;
                     break;
             }
             break;
         case 0x1000:
+            program_counter = current_opcode & 0x0FFF;
             break;
         case 0x2000:
             break;
@@ -98,6 +101,7 @@ void cycleCPU() {
         case 0x9000:
             break;
         case 0xA000:
+            index_register = current_opcode & 0x0FFF;
             break;
         case 0xB000:
             break;
