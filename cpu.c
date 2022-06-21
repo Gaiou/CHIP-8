@@ -65,6 +65,9 @@ void cycleCPU() {
             program_counter = current_opcode & 0x0FFF;
             break;
         case 0x2000:
+            stack_pointer++;
+            stack[stack_pointer] = program_counter;
+            program_counter = current_opcode & 0x0FFF;
             break;
         case 0x3000:
             break;
@@ -104,6 +107,8 @@ void cycleCPU() {
             index_register = current_opcode & 0x0FFF;
             break;
         case 0xB000:
+            program_counter = current_opcode & 0x0FFF;
+            program_counter += v_register[0];
             break;
         case 0xC000:
             break;
