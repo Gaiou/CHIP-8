@@ -47,6 +47,7 @@ void initializeCPU() {
 }
 
 void cycleCPU() {
+    // remove if causes problems with v_register
     uint16_t x;
     uint16_t y; 
     
@@ -55,10 +56,10 @@ void cycleCPU() {
     
     switch (current_opcode & 0xF000) {
         case 0x0000:
-            switch (current_opcode & 0x000F) {
-                case 0x0000:
+            switch (current_opcode & 0x00FF) {
+                case 0x00E0:
                     break;
-                case 0x000E:
+                case 0x00EE:
                     program_counter = stack[stack_pointer];
                     stack_pointer--;
                     break;
@@ -83,10 +84,14 @@ void cycleCPU() {
                 program_counter += 2;
             break;
         case 0x5000:
-            x = current_opcode & 0x0F00;
-            y = current_opcode & 0x00F0;
-            if (v_register[x] == v_register[y])
-                program_counter += 2;
+            switch (current_opcode & 0x000F) {
+                case 0x000:
+                    x = current_opcode & 0x0F00;
+                    y = current_opcode & 0x00F0;
+                    if (v_register[x] == v_register[y])
+                        program_counter += 2;
+                    break;
+            }
             break;
         case 0x6000:
             break;
@@ -115,6 +120,10 @@ void cycleCPU() {
             }
             break;
         case 0x9000:
+            switch (current_opcode & 0x000F) {
+                case 0x0000:
+                    break;
+            }
             break;
         case 0xA000:
             index_register = current_opcode & 0x0FFF;
