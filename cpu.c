@@ -47,6 +47,9 @@ void initializeCPU() {
 }
 
 void cycleCPU() {
+    uint16_t x;
+    uint16_t y; 
+    
     current_opcode = memory[program_counter] << 8 | memory[program_counter + 1];
     program_counter += 2;
     
@@ -70,10 +73,20 @@ void cycleCPU() {
             program_counter = current_opcode & 0x0FFF;
             break;
         case 0x3000:
+            x = current_opcode & 0x0F00;
+            if (v_register[x] == (current_opcode & 0x00FF))
+                program_counter += 2;
             break;
         case 0x4000:
+            x = current_opcode & 0x0F00;
+            if (v_register[x] != (current_opcode & 0x00FF))
+                program_counter += 2;
             break;
         case 0x5000:
+            x = current_opcode & 0x0F00;
+            y = current_opcode & 0x00F0;
+            if (v_register[x] == v_register[y])
+                program_counter += 2;
             break;
         case 0x6000:
             break;
