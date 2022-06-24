@@ -94,12 +94,19 @@ void cycleCPU() {
             }
             break;
         case 0x6000:
+            x = current_opcode & 0x0F00;
+            v_register[x] = current_opcode & 0x00FF;
             break;
         case 0x7000:
+            x = current_opcode & 0x0F00;
+            v_register[x] = v_register[x] + (current_opcode & 0x00FF);
             break;
         case 0x8000:
             switch (current_opcode & 0x000F) {
                 case 0x0000:
+                    x = current_opcode & 0x0F00;
+                    y = current_opcode & 0x00F0;
+                    v_register[x] = v_register[y];
                     break;
                 case 0x0001:
                     break;
