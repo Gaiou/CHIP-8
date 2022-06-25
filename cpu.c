@@ -146,6 +146,15 @@ void cycleCPU() {
                     v_register[x] = v_register[x] - v_register[y];
                     break;
                 case 0x0006:
+                    x = current_opcode & 0x0F00;
+                    y = current_opcode & 0x00F0;
+
+                    if (v_register[x] & 1 == 1)
+                        v_register[0xF] = 1;
+                    else
+                        v_register[0xF] = 0;
+
+                    v_register[x] /= 2;
                     break;
                 case 0x0007:
                     x = current_opcode & 0x0F00;
@@ -159,6 +168,15 @@ void cycleCPU() {
                     v_register[x] = v_register[y] - v_register[x];
                     break;
                 case 0x000E:
+                    x = current_opcode & 0x0F00;
+                    y = current_opcode & 0x00F0;
+
+                    if (v_register[x] & 128 == 1)
+                        v_register[0xF] = 1;
+                    else
+                        v_register[0xF] = 0;
+
+                    v_register[x] *= 2;
                     break;
             }
             break;
