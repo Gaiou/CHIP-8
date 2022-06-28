@@ -222,12 +222,18 @@ void cycleCPU() {
         case 0xF000:
             switch (current_opcode & 0x00FF) {
                 case 0x0007:
+                    x = (current_opcode & 0x0F00) >> 8;
+                    v_register[x] = delay_timer;
                     break;
                 case 0x000A:
                     break;
                 case 0x0015:
+                    x = (current_opcode & 0x0F00) >> 8;
+                    delay_timer = v_register[x];
                     break;
                 case 0x0018:
+                    x = (current_opcode & 0x0F00) >> 8;
+                    sound_timer = v_register[x];
                     break;
                 case 0x001E:
                     break;
