@@ -58,6 +58,9 @@ void cycleCPU() {
         case 0x0000:
             switch (current_opcode & 0x00FF) {
                 case 0x00E0:
+                    for (int i = 0; i < 64*32; i++) {
+                        display[i] = 0;
+                    }
                     break;
                 case 0x00EE:
                     program_counter = stack[stack_pointer];
@@ -205,8 +208,14 @@ void cycleCPU() {
         case 0xE000:
             switch (current_opcode & 0x00FF) {
                 case 0x009E:
+                    x = (current_opcode & 0x0F00) >> 8;
+                    if (keyboard[x] == true)
+                        program_counter += 2;
                     break;
                 case 0x00A1:
+                    x = (current_opcode & 0x0F00) >> 8;
+                    if (keyboard[x] == false)
+                        program_counter += 2;
                     break;
             }
             break;
