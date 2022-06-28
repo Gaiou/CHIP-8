@@ -47,12 +47,12 @@ void initializeCPU() {
 }
 
 void cycleCPU() {
-    // remove if causes problems with v_register
-    uint16_t x; // >> 8
-    uint16_t y; // >> 4
-    
     current_opcode = memory[program_counter] << 8 | memory[program_counter + 1];
     program_counter += 2;
+
+    // remove if causes problems with v_register
+    uint16_t x = (current_opcode & 0x0F00) >> 8;
+    uint16_t y = (current_opcode & 0x00F0) >> 4;
     
     switch (current_opcode & 0xF000) {
         case 0x0000:
@@ -77,59 +77,42 @@ void cycleCPU() {
             program_counter = current_opcode & 0x0FFF;
             break;
         case 0x3000:
-            x = (current_opcode & 0x0F00) >> 8;
             if (v_register[x] == (current_opcode & 0x00FF))
                 program_counter += 2;
             break;
         case 0x4000:
-            x = (current_opcode & 0x0F00) >> 8;
             if (v_register[x] != (current_opcode & 0x00FF))
                 program_counter += 2;
             break;
         case 0x5000:
             switch (current_opcode & 0x000F) {
                 case 0x000:
-                    x = (current_opcode & 0x0F00) >> 8;
-                    y = (current_opcode & 0x00F0) >> 4;
                     if (v_register[x] == v_register[y])
                         program_counter += 2;
                     break;
             }
             break;
         case 0x6000:
-            x = (current_opcode & 0x0F00) >> 8;
             v_register[x] = current_opcode & 0x00FF;
             break;
         case 0x7000:
-            x = (current_opcode & 0x0F00) >> 8;
             v_register[x] = v_register[x] + (current_opcode & 0x00FF);
             break;
         case 0x8000:
             switch (current_opcode & 0x000F) {
                 case 0x0000:
-                    x = (current_opcode & 0x0F00) >> 8;
-                    y = (current_opcode & 0x00F0) >> 4;
                     v_register[x] = v_register[y];
                     break;
                 case 0x0001:
-                    x = (current_opcode & 0x0F00) >> 8;
-                    y = (current_opcode & 0x00F0) >> 4;
                     v_register[x] = v_register[x] | v_register[y];
                     break;
                 case 0x0002:
-                    x = (current_opcode & 0x0F00) >> 8;
-                    y = (current_opcode & 0x00F0) >> 4;
                     v_register[x] = v_register[x] & v_register[y];
                     break;
                 case 0x0003:
-                    x = (current_opcode & 0x0F00) >> 8;
-                    y = (current_opcode & 0x00F0) >> 4;
                     v_register[x] = v_register[x] ^ v_register[y];
                     break;
                 case 0x0004:
-                    x = (current_opcode & 0x0F00) >> 8;
-                    y = (current_opcode & 0x00F0) >> 4;
-
                     if (v_register[x] + v_register[y] > 255)
                         v_register[0xF] = 1;
                     else
@@ -138,9 +121,6 @@ void cycleCPU() {
                     v_register[x] = (v_register[x] + v_register[y]) & 0x00FF;
                     break;
                 case 0x0005:
-                    x = (current_opcode & 0x0F00) >> 8;
-                    y = (current_opcode & 0x00F0) >> 4;
-
                     if (v_register[x] > v_register[y])
                         v_register[0xF] = 1;
                     else
@@ -149,9 +129,6 @@ void cycleCPU() {
                     v_register[x] = v_register[x] - v_register[y];
                     break;
                 case 0x0006:
-                    x = (current_opcode & 0x0F00) >> 8;
-                    y = (current_opcode & 0x00F0) >> 4;
-
                     if (v_register[x] & 1 == 1)
                         v_register[0xF] = 1;
                     else
@@ -160,9 +137,6 @@ void cycleCPU() {
                     v_register[x] /= 2;
                     break;
                 case 0x0007:
-                    x = (current_opcode & 0x0F00) >> 8;
-                    y = (current_opcode & 0x00F0) >> 4;
-
                     if (v_register[x] > v_register[y])
                         v_register[0xF] = 1;
                     else
@@ -171,9 +145,6 @@ void cycleCPU() {
                     v_register[x] = v_register[y] - v_register[x];
                     break;
                 case 0x000E:
-                    x = (current_opcode & 0x0F00) >> 8;
-                    y = (current_opcode & 0x00F0) >> 4;
-
                     if (v_register[x] & 128 == 1)
                         v_register[0xF] = 1;
                     else
@@ -186,9 +157,6 @@ void cycleCPU() {
         case 0x9000:
             switch (current_opcode & 0x000F) {
                 case 0x0000:
-                    x = (current_opcode & 0x0F00) >> 8;
-                    y = (current_opcode & 0x00F0) >> 4;
-
                     if (v_register[x] != v_register[y])
                         program_counter += 2;
                     break;
@@ -208,12 +176,10 @@ void cycleCPU() {
         case 0xE000:
             switch (current_opcode & 0x00FF) {
                 case 0x009E:
-                    x = (current_opcode & 0x0F00) >> 8;
                     if (keyboard[x] == true)
                         program_counter += 2;
                     break;
                 case 0x00A1:
-                    x = (current_opcode & 0x0F00) >> 8;
                     if (keyboard[x] == false)
                         program_counter += 2;
                     break;
@@ -222,21 +188,17 @@ void cycleCPU() {
         case 0xF000:
             switch (current_opcode & 0x00FF) {
                 case 0x0007:
-                    x = (current_opcode & 0x0F00) >> 8;
                     v_register[x] = delay_timer;
                     break;
                 case 0x000A:
                     break;
                 case 0x0015:
-                    x = (current_opcode & 0x0F00) >> 8;
                     delay_timer = v_register[x];
                     break;
                 case 0x0018:
-                    x = (current_opcode & 0x0F00) >> 8;
                     sound_timer = v_register[x];
                     break;
                 case 0x001E:
-                    x = (current_opcode & 0x0F00) >> 8;
                     index_register = index_register + v_register[x];
                     break;
                 case 0x0029:
@@ -244,13 +206,11 @@ void cycleCPU() {
                 case 0x0033:
                     break;
                 case 0x0055:
-                    x = (current_opcode & 0x0F00) >> 8;
                     for (uint16_t i = 0, j = index_register; i < x; i++, j++) {
                         memory[j] = v_register[i];
                     }
                     break;
                 case 0x0065:
-                    x = (current_opcode & 0x0F00) >> 8;
                     for (uint16_t i = 0, j = index_register; i < x; i++, j++) {
                         v_register[i] = memory[j];
                     }
