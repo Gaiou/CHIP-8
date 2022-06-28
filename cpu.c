@@ -236,14 +236,24 @@ void cycleCPU() {
                     sound_timer = v_register[x];
                     break;
                 case 0x001E:
+                    x = (current_opcode & 0x0F00) >> 8;
+                    index_register = index_register + v_register[x];
                     break;
                 case 0x0029:
                     break;
                 case 0x0033:
                     break;
                 case 0x0055:
+                    x = (current_opcode & 0x0F00) >> 8;
+                    for (uint16_t i = 0, j = index_register; i < x; i++, j++) {
+                        memory[j] = v_register[i];
+                    }
                     break;
                 case 0x0065:
+                    x = (current_opcode & 0x0F00) >> 8;
+                    for (uint16_t i = 0, j = index_register; i < x; i++, j++) {
+                        v_register[i] = memory[j];
+                    }
                     break;
             }
             break;
