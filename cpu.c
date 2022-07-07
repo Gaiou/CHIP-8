@@ -1,5 +1,6 @@
 #include "cpu.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 const uint8_t fontset[80] = {
     0xF0, 0x90, 0x90, 0x90, 0xF0,   // 0
@@ -57,7 +58,7 @@ void cycleCPU() {
     switch (current_opcode & 0xF000) {
         case 0x0000:
             switch (current_opcode & 0x00FF) {
-                case 0x00E0:
+                case 0x00E0: // tbc
                     for (int i = 0; i < 64*32; i++) {
                         display[i] = 0;
                     }
@@ -129,7 +130,7 @@ void cycleCPU() {
                     v_register[x] = v_register[x] - v_register[y];
                     break;
                 case 0x0006:
-                    if (v_register[x] & 1 == 1)
+                    if ((v_register[x] & 1) == 1)
                         v_register[0xF] = 1;
                     else
                         v_register[0xF] = 0;
@@ -145,7 +146,7 @@ void cycleCPU() {
                     v_register[x] = v_register[y] - v_register[x];
                     break;
                 case 0x000E:
-                    if (v_register[x] & 128 == 1)
+                    if ((v_register[x] & 128) == 1)
                         v_register[0xF] = 1;
                     else
                         v_register[0xF] = 0;
@@ -170,8 +171,10 @@ void cycleCPU() {
             program_counter += v_register[0];
             break;
         case 0xC000:
+            srand(time(0));
+            v_register[x] = (current_opcode & 0x00FF) & (rand() % 256);
             break;
-        case 0xD000:
+        case 0xD000: // tbc
             break;
         case 0xE000:
             switch (current_opcode & 0x00FF) {
@@ -191,6 +194,7 @@ void cycleCPU() {
                     v_register[x] = delay_timer;
                     break;
                 case 0x000A:
+                    v_register[x] = getchar();
                     break;
                 case 0x0015:
                     delay_timer = v_register[x];
@@ -202,8 +206,12 @@ void cycleCPU() {
                     index_register = index_register + v_register[x];
                     break;
                 case 0x0029:
+                    index_register = fontset[v_register[x]];
                     break;
                 case 0x0033:
+                    memory[index_register] = v_register[x] / 100;
+                    memory[index_register + 1] = (v_register[x] / 10) % 10;
+                    memory[index_register + 2] = (v_register[x] % 100) % 10;
                     break;
                 case 0x0055:
                     for (uint16_t i = 0, j = index_register; i < x; i++, j++) {
