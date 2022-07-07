@@ -1,6 +1,7 @@
 #include "cpu.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 const uint8_t fontset[80] = {
     0xF0, 0x90, 0x90, 0x90, 0xF0,   // 0
@@ -20,6 +21,15 @@ const uint8_t fontset[80] = {
     0xF0, 0x80, 0xF0, 0x80, 0xF0,   // E
     0xF0, 0x80, 0xF0, 0x80, 0x80    // F
 };
+
+void delay() {
+    clock_t start = clock();
+
+    while (clock() < start + 100000) {
+    }
+
+    return;
+}
 
 void initializeCPU() {
     current_opcode = 0;
