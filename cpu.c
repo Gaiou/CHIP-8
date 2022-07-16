@@ -184,7 +184,25 @@ void cycleCPU() {
             srand(time(0));
             v_register[x] = (current_opcode & 0x00FF) & (rand() % 256);
             break;
-        case 0xD000: // tbc
+        case 0xD000: { //tbc
+                uint16_t height = current_opcode & 0x000F;
+                v_register[0xF] = 0;
+
+                for (uint16_t x_coordinate = 0; x_coordinate < height; x_coordinate++) {
+                    uint16_t pixel = memory[index_register + x_coordinate];
+
+                    for (uint16_t y_coordinate = 0; y_coordinate < 8; y_coordinate++) {
+                        uint16_t sprite = pixel & (0x80 >> y_coordinate);
+                        uint16_t sprite_position = x + y_coordinate + ((y + x_coordinate) * 64);
+
+                        if (sprite != 0) {
+                            if (sprite_position == 1)
+                                v_register[0xF] = 1;
+                            display[sprite_position] ^= 1;
+                        }
+                    }
+                }
+            }
             break;
         case 0xE000:
             switch (current_opcode & 0x00FF) {
