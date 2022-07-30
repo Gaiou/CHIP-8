@@ -1,6 +1,15 @@
 # CHIP-8
-## Resources
 
+## To-Do
+Implement SLD2
+
+Test Opcodes
+
+Draw screen with ROM files
+
+Keyboard inputs
+
+## Resources
 https://en.wikipedia.org/wiki/CHIP-8
 
 http://devernay.free.fr/hacks/chip8/C8TECH10.HTM
